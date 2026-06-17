@@ -57,17 +57,15 @@ class CalculatorCore:
             eval_expr = eval_expr.replace("^", "**")
             eval_expr = eval_expr.replace("π", "pi")
 
-            # Handle percentage conversion, e.g. 50% -> (50/100)
-            eval_expr = re.sub(r"([0-9]+\.?[0-9]*|pi|e)%", r"(\1/100)", eval_expr)
+            # Handle percentage conversion supporting numbers, constants, and parentheses (e.g., (2+3)%)
+            eval_expr = re.sub(r"([0-9.]+|pi|e|\([^)]*\))%", r"(\1/100)", eval_expr)
 
-            # Handle brackets insertion for square roots: √x -> sqrt(x)
-            # √ followed by a number, decimal, or parenthesis
-            eval_expr = re.sub(r"√(\d+\.?\d*)", r"sqrt(\1)", eval_expr)
+            # Handle brackets insertion for square roots (e.g. √16, √pi, √(2+3))
+            eval_expr = re.sub(r"√([0-9.]+|pi|e|\([^)]*\))", r"sqrt(\1)", eval_expr)
             eval_expr = eval_expr.replace("√", "sqrt")
 
             # 2. Strict character validation to prevent code execution injection
             # Only allow digits, standard math symbols, and specific safe math names
-            allowed_chars = r"^[0-9+\-*/().\s|%|pi|e|sqrt|sin|cos|tan|log|ln|**]*$"
             sanitized = eval_expr.replace("sqrt", "").replace("sin", "").replace("cos", "").replace("tan", "").replace("log", "").replace("ln", "").replace("pi", "")
 
             if not re.match(r"^[0-9+\-*/().\s|%|e|**]*$", sanitized):
@@ -101,6 +99,10 @@ class CalculatorCore:
             # 4. Perform the evaluation
             result_val = eval(eval_expr, safe_namespace)
 
+            # Check for functions evaluated on their own (callable)
+            if callable(result_val):
+                raise TypeError("Incomplete function expression")
+
             # Format the output result
             if isinstance(result_val, float):
                 # If it's a whole number, display as integer
@@ -123,8 +125,8 @@ class CalculatorCore:
             return result_str
 
         except ZeroDivisionError:
-            self.expression = ""
+            # Keep self.expression intact so user can correct errors
             return "Div by 0"
         except Exception:
-            self.expression = ""
+            # Keep self.expression intact so user can correct errors
             return "Error"

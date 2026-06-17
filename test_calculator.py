@@ -161,5 +161,36 @@ class TestCalculatorCore(unittest.TestCase):
         self.core.clear_history()
         self.assertEqual(len(self.core.get_history()), 0)
 
+    def test_advanced_review_upgrades(self):
+        # 1. Square root of constants (√pi, √e)
+        self.core.set_expression("√pi")
+        self.assertAlmostEqual(float(self.core.evaluate()), math.sqrt(math.pi))
+
+        self.core.set_expression("√e")
+        self.assertAlmostEqual(float(self.core.evaluate()), math.sqrt(math.e))
+
+        # 2. Percentage of parenthesized expressions (e.g. (2+3)%)
+        self.core.set_expression("(2+3)%")
+        self.assertEqual(self.core.evaluate(), "0.05")
+
+        self.core.set_expression("(10-2)%")
+        self.assertEqual(self.core.evaluate(), "0.08")
+
+        # 3. Scientific function name alone evaluations (e.g., 'sin')
+        self.core.set_expression("sin")
+        self.assertEqual(self.core.evaluate(), "Error")
+
+        self.core.set_expression("sqrt")
+        self.assertEqual(self.core.evaluate(), "Error")
+
+        # 4. Loss of input on error (expression must remain intact)
+        self.core.set_expression("5/(2-2)")  # Division by zero
+        self.assertEqual(self.core.evaluate(), "Div by 0")
+        self.assertEqual(self.core.get_expression(), "5/(2-2)")  # Expression is still there!
+
+        self.core.set_expression("2+/3")  # Syntax error
+        self.assertEqual(self.core.evaluate(), "Error")
+        self.assertEqual(self.core.get_expression(), "2+/3")  # Expression is still there!
+
 if __name__ == "__main__":
     unittest.main()

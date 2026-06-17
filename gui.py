@@ -184,7 +184,11 @@ class CalculatorGUI:
             self.root.geometry("520x520" if not self.show_hist else "700x520")
             self.main_container.columnconfigure(0, weight=2) # Scientific panel weight
             self.sci_frame.grid(row=0, column=0, sticky="nsew", padx=(0, 5))
-            self.setup_scientific_grid()
+
+            # Avoid leaking Button widgets: only build them if not already created
+            if not self.sci_frame.winfo_children():
+                self.setup_scientific_grid()
+
             self.sci_toggle_btn.configure(bg=self.colors["btn_accent"])
         else:
             self.sci_frame.grid_forget()
@@ -208,10 +212,39 @@ class CalculatorGUI:
             width = 380 if not self.show_sci else 520
             self.root.geometry(f"{width}x520")
 
+    def update_display_font_size(self, text: str):
+        length = len(text)
+        if length > 24:
+            size = 11
+        elif length > 18:
+            size = 15
+        elif length > 12:
+            size = 20
+        else:
+            size = 28
+        self.display_label.configure(font=("Consolas", size, "bold"))
+
     def on_button_click(self, char: str):
+        # Handle exiting from error states gracefully (keeping expression intact for correction)
+        if hasattr(self, "showing_error") and self.showing_error:
+            self.showing_error = False
+            if char == "⌫":
+                # Go back to displaying the formula so they can fix their typo
+                expr = self.core.get_expression()
+                self.display_label.configure(text=expr if expr else "0")
+                self.update_display_font_size(expr if expr else "0")
+                return
+            elif char != "C" and char != "=":
+                # Clear the faulty formula and start fresh if they type anything else
+                self.core.clear()
+                self.formula_label.configure(text="")
+
         if char == "C":
             self.core.clear()
             self.formula_label.configure(text="")
+            self.display_label.configure(text="0")
+            self.update_display_font_size("0")
+            return
         elif char == "⌫":
             self.core.backspace()
         elif char == "=":
@@ -221,6 +254,16 @@ class CalculatorGUI:
             self.formula_label.configure(text=f"{formula} =")
             result = self.core.evaluate()
             self.update_history_display()
+
+            if result in ["Error", "Div by 0"]:
+                self.showing_error = True
+                self.display_label.configure(text=result)
+                self.update_display_font_size(result)
+                return
+            else:
+                self.display_label.configure(text=result)
+                self.update_display_font_size(result)
+                return
         elif char in ["sin", "cos", "tan", "log", "ln", "√"]:
             self.core.append(f"{char}(")
         else:
@@ -229,6 +272,7 @@ class CalculatorGUI:
         # Update Display
         expr = self.core.get_expression()
         self.display_label.configure(text=expr if expr else "0")
+        self.update_display_font_size(expr if expr else "0")
 
     def update_history_display(self):
         if not self.show_hist:
@@ -247,6 +291,7 @@ class CalculatorGUI:
             self.core.set_expression(history_item["result"])
             self.formula_label.configure(text=f"Loaded: {history_item['expression']}")
             self.display_label.configure(text=history_item["result"])
+            self.update_display_font_size(history_item["result"])
 
     def clear_history_data(self):
         self.core.clear_history()
@@ -260,7 +305,8 @@ class CalculatorGUI:
         keysym = event.keysym
 
         # Match physical key bindings
-        if key in "0123456789.()+-/*%":
+        # Ensure key is not empty string (modifier keys Shift, Ctrl, Alt emit event.char = "")
+        if key and key in "0123456789.()+-/*%":
             # Translate standard keyboard characters to visual representation if needed
             char = key
             if char == "*": char = "×"
@@ -270,7 +316,7 @@ class CalculatorGUI:
             self.on_button_click("=")
         elif keysym == "BackSpace":
             self.on_button_click("⌫")
-        elif keysym == "Escape" or key.lower() == "c":
+        elif keysym in ["Escape", "Delete"]:
             self.on_button_click("C")
         elif key == "^":
             self.on_button_click("^")
