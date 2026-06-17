@@ -1,33 +1,24 @@
-# Node.js / JavaScript
+# Dependency Directories
 node_modules/
-.next/
+
+# Production / Build
 dist/
 build/
+.next/
+
+# Environment Files
 .env
 .env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Python compiled files
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Log Files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
-# Environments
-.venv/
-venv/
-ENV/
-env/
-
-# IDE and Editor configs
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Testing and Coverage
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Logs
-*.log
+# System Files
+.DS_Store
+Thumbs.db
