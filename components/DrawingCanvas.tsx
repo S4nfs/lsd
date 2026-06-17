@@ -141,7 +141,7 @@ export default function DrawingCanvas({ onDraw }: DrawingCanvasProps) {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="relative group p-1 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-2xl shadow-xl shadow-blue-900/10">
+      <div className="relative p-1 bg-slate-800 rounded-xl border border-slate-700">
         <canvas
           ref={canvasRef}
           onMouseDown={startDrawing}
@@ -151,15 +151,15 @@ export default function DrawingCanvas({ onDraw }: DrawingCanvasProps) {
           onTouchStart={startDrawing}
           onTouchEnd={stopDrawing}
           onTouchMove={draw}
-          className="block bg-black rounded-xl cursor-crosshair touch-none select-none transition-transform duration-100 group-hover:scale-[1.01]"
+          className="block bg-black rounded-lg cursor-crosshair touch-none select-none"
         />
       </div>
 
       <button
         onClick={clearCanvas}
-        className="flex items-center gap-2 px-5 py-2.5 bg-slate-800 hover:bg-slate-700 active:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 rounded-xl transition-all shadow-md active:scale-95 group font-medium"
+        className="flex items-center gap-2 px-5 py-2.5 bg-slate-900 hover:bg-slate-800 active:bg-slate-900 text-slate-200 border border-slate-800 rounded-lg transition-colors font-medium"
       >
-        <Trash2 className="w-4 h-4 text-rose-400 group-hover:scale-110 transition-transform" />
+        <Trash2 className="w-4 h-4 text-rose-400" />
         Clear Board
       </button>
     </div>

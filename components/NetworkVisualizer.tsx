@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 
 interface NetworkVisualizerProps {
   probabilities: number[];
@@ -22,7 +21,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
   const outputY = [25, 45, 65, 85, 105, 125, 145, 165, 185, 205, 225, 245].slice(1, 11); // 10 output nodes
 
   return (
-    <div className="flex flex-col gap-4 w-full max-w-lg p-6 bg-slate-800/40 backdrop-blur-md rounded-2xl border border-slate-700/50 shadow-inner">
+    <div className="flex flex-col gap-4 w-full max-w-lg p-6 bg-slate-900 border border-slate-800 rounded-xl">
       <div>
         <h3 className="text-lg font-bold text-slate-200">
           Neural Network Architecture
@@ -32,27 +31,13 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
         </p>
       </div>
 
-      <div className="relative w-full aspect-[420/280] bg-slate-950/70 border border-slate-900 rounded-xl overflow-hidden p-2">
+      <div className="relative w-full aspect-[420/280] bg-slate-950 border border-slate-900 rounded-xl overflow-hidden p-2">
         <svg viewBox="0 0 420 280" className="w-full h-full">
-          <defs>
-            {/* Gradient definition for active glow */}
-            <linearGradient id="activeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#6366f1" stopOpacity="0.8" />
-            </linearGradient>
-
-            {/* Glowing filter for nodes */}
-            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-          </defs>
-
           {/* Draw connecting synapses (connecting lines) */}
           <g className="synapses opacity-30">
             {/* Column 1 -> Column 2 */}
             {inputY.map((y1) =>
-              hidden1Y.map((y2, idx) => (
+              hidden1Y.map((y2) => (
                 <line
                   key={`syn1-${y1}-${y2}`}
                   x1={cols[0]}
@@ -61,7 +46,6 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                   y2={y2}
                   stroke="#475569"
                   strokeWidth="0.5"
-                  className={hasInference ? "animate-pulse" : ""}
                 />
               ))
             )}
@@ -92,7 +76,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                     y1={y1}
                     x2={cols[3]}
                     y2={y2}
-                    stroke={isActive ? "url(#activeGrad)" : "#475569"}
+                    stroke={isActive ? "#3b82f6" : "#475569"}
                     strokeWidth={isActive ? "1.5" : "0.5"}
                     strokeDasharray={isActive ? "4, 4" : "none"}
                     className={isActive ? "animate-[dash_10s_linear_infinite]" : ""}
@@ -110,8 +94,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                 <circle
                   key={`pulse-${idx}`}
                   r="2"
-                  fill="#60a5fa"
-                  filter="url(#glow)"
+                  fill="#3b82f6"
                 >
                   <animateMotion
                     path={`M ${cols[2]},${y1} L ${cols[3]},${outputY[maxIdx]}`}
@@ -130,9 +113,8 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                 key={`in-${idx}`}
                 cx={cols[0]}
                 cy={y}
-                r="4.5"
-                fill="#3b82f6"
-                className="transition-all duration-300"
+                r="4"
+                fill="#334155"
               />
             ))}
             {/* Draw gap indicator */}
@@ -148,7 +130,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                 cy={y}
                 r="4"
                 fill="#1e293b"
-                stroke="#64748b"
+                stroke="#475569"
                 strokeWidth="1.5"
               />
             ))}
@@ -164,7 +146,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                 cy={y}
                 r="4"
                 fill="#1e293b"
-                stroke="#64748b"
+                stroke="#475569"
                 strokeWidth="1.5"
               />
             ))}
@@ -178,15 +160,14 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
               const opacity = hasInference ? Math.max(0.1, probabilities[idx]) : 1.0;
 
               return (
-                <g key={`out-${idx}`} className="transition-all duration-300">
+                <g key={`out-${idx}`}>
                   <circle
                     cx={cols[3]}
                     cy={y}
-                    r={isActive ? "7.5" : "5.5"}
+                    r={isActive ? "7" : "5"}
                     fill={isActive ? "#3b82f6" : "#1e293b"}
-                    stroke={isActive ? "#60a5fa" : "#475569"}
-                    strokeWidth={isActive ? "2" : "1"}
-                    filter={isActive ? "url(#glow)" : "none"}
+                    stroke={isActive ? "#3b82f6" : "#475569"}
+                    strokeWidth={isActive ? "1.5" : "1"}
                     opacity={opacity}
                   />
                   <text
@@ -194,7 +175,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                     y={y + 3.5}
                     fontSize="9.5"
                     fontWeight="bold"
-                    fill={isActive ? "#60a5fa" : "#64748b"}
+                    fill={isActive ? "#3b82f6" : "#475569"}
                     className="font-mono text-[9px]"
                   >
                     {idx}
