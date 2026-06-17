@@ -1,9 +1,56 @@
-# Modern JavaScript Calculator
+# 🧮 Multi-Language Calculator Suite (Python & JavaScript)
 
-A simple, elegant, and robust calculator built with JavaScript, HTML, and CSS. It features a stateful calculator engine, a beautiful responsive UI with dark/light mode support, keyboard shortcuts, and a comprehensive suite of unit tests.
+Welcome to the Multi-Language Calculator Suite! This repository contains two independent, highly functional, and beautiful calculator implementations—one written in **Python** (featuring a Tkinter desktop GUI and terminal CLI), and one written in **JavaScript** (featuring a modern responsive web interface).
 
-## Features
+---
 
+## 🐍 1. Modern Python Calculator (GUI & CLI)
+
+A modern, highly functional, and secure Python Calculator app designed with clean architecture principles. It features an elegant dark-themed desktop Graphical User Interface (GUI) and a responsive, interactive Command-Line Interface (CLI) fallback.
+
+### ✨ Features
+- **🎨 Modern Dark GUI:** A gorgeous, responsive dark-themed desktop app with custom-styled buttons, automatic scaling, and a dual-line screen (displays full active formula and result).
+- **🔬 Scientific Panel:** A collapsible scientific keyboard overlay containing operations like square root ($\sqrt{x}$), exponentiation ($x^y$), trigonometric functions ($\sin$, $\cos$, $\tan$ in degrees), logarithms ($\log_{10}$ and $\ln$), percentage ($\%$), and constants ($\pi$ and $e$).
+- **📜 Calculation History:** A collapsible side panel displaying previous calculations. Double-clicking or selecting any entry reloads its result back into the active display.
+- **⌨️ Physical Keyboard Support:** Fully bound keyboard shortcuts! Type numbers, standard operators ($+$, $-$, $*$, $/$, $\%$), brackets, `Backspace` (delete), `Escape` (clear), or `Enter` (evaluate) directly from your keyboard.
+- **🛡️ Secure Evaluator:** Built-in syntax analysis and safe sanitization to prevent arbitrary code injection or malicious code execution (does not use standard `eval()`).
+- **📟 Interactive CLI Fallback:** A clean command-line menu option. Automatically falls back to the CLI if running in a headless environment, or can be run explicitly via command-line arguments.
+- **🧪 Automated Tests:** Fully covered by a comprehensive suite of unit tests verifying basic arithmetic, scientific evaluations, edge cases, implicit multiplication, and security protection.
+
+### 🛠️ Python Project Structure
+```text
+├── calculator.py       # Main entry-point script (handles mode selection)
+├── core.py             # Math parser, history logic, and safe evaluation
+├── gui.py              # Responsive desktop Tkinter GUI presentation
+├── cli.py              # Interactive command-line terminal menu
+└── test_calculator.py  # Complete unit test suite
+```
+
+### 🚀 How to Run Python Calculator
+Prerequisite: You only need **Python 3.x** installed. No external pip libraries are required!
+
+- **Launch standard GUI Mode:**
+  ```bash
+  python calculator.py
+  ```
+- **Launch CLI Terminal Mode directly:**
+  ```bash
+  python calculator.py --cli
+  ```
+
+### 🧪 Running Python Tests
+The mathematical core is validated using Python's built-in `unittest` module. To execute the entire test suite, run:
+```bash
+python -m unittest test_calculator.py
+```
+
+---
+
+## 🌐 2. Modern JavaScript Calculator (Web App)
+
+A simple, elegant, and robust web-based calculator built with JavaScript, HTML, and CSS. It features a stateful calculator engine, a beautiful glassmorphism responsive UI with dark/light mode support, keyboard shortcuts, and unit tests.
+
+### ✨ Features
 - **Core Math Operations**: Addition, Subtraction, Multiplication, and Division.
 - **Advanced Operations**: Percentage calculation, sign toggling (`±`), and decimal support.
 - **Floating-Point Precision**: Handles floating-point precision issues gracefully (e.g., `0.1 + 0.2 = 0.3`).
@@ -12,8 +59,7 @@ A simple, elegant, and robust calculator built with JavaScript, HTML, and CSS. I
 - **Keyboard Shortcuts**: Full keyboard support for rapid calculations.
 - **Robust Testing**: 100% test coverage for the core calculator logic using Jest.
 
-## Project Structure
-
+### 🛠️ JavaScript Project Structure
 ```text
 ├── public/
 │   ├── index.html      # Web interface structure
@@ -22,50 +68,14 @@ A simple, elegant, and robust calculator built with JavaScript, HTML, and CSS. I
 ├── src/
 │   ├── calculator.js   # Core calculator logic (pure functions & stateful class)
 │   └── calculator.test.js # Unit tests for the calculator logic
-├── package.json        # Project configuration and dependencies
-└── README.md           # Project documentation
+└── package.json        # Project configuration and dependencies
 ```
 
-## Getting Started
+### 🚀 How to Run JavaScript Calculator
+Open `public/index.html` in any modern web browser to run the application instantly!
 
-### 1. Run the Web Calculator
-
-Simply open the `public/index.html` file in any modern web browser. No server or build step is required!
-
+To install development dependencies and run tests:
 ```bash
-# On macOS
-open public/index.html
-
-# On Linux
-xdg-open public/index.html
-
-# On Windows
-start public/index.html
-```
-
-### 2. Run Unit Tests
-
-To run the unit tests and verify the calculator logic:
-
-```bash
-# Install dependencies
 npm install
-
-# Run tests
 npm test
 ```
-
-## Keyboard Shortcuts
-
-| Key | Action |
-| --- | --- |
-| `0` - `9` | Input numbers |
-| `.` | Decimal point |
-| `+` | Addition |
-| `-` | Subtraction |
-| `*` | Multiplication |
-| `/` | Division |
-| `%` | Percentage |
-| `Enter` or `=` | Calculate result |
-| `Backspace` | Delete last digit |
-| `Escape` | Clear all (AC) |
