@@ -5,7 +5,7 @@ An advanced, interactive machine learning application built with **Next.js 15 (A
 ---
 
 <div align="center">
-  <img src="public/nn.png" alt="Neural Network Digit Predictor Interface" width="750">
+  <img src="nn.png" alt="Neural Network Digit Predictor Interface" width="750">
 </div>
 
 ---

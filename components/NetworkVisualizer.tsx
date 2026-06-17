@@ -21,20 +21,20 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
   const outputY = [25, 45, 65, 85, 105, 125, 145, 165, 185, 205, 225, 245].slice(1, 11); // 10 output nodes
 
   return (
-    <div className="flex flex-col gap-4 w-full max-w-lg p-6 bg-slate-900 border border-slate-800 rounded-xl">
+    <div className="flex flex-col gap-4 w-full max-w-lg p-6 bg-white border border-slate-200 rounded-xl shadow-sm">
       <div>
-        <h3 className="text-lg font-bold text-slate-200">
+        <h3 className="text-lg font-bold text-slate-800">
           Neural Network Architecture
         </h3>
-        <p className="text-xs text-slate-400 mt-1">
+        <p className="text-xs text-slate-500 mt-1">
           Real-time forward propagation flow through model weights
         </p>
       </div>
 
-      <div className="relative w-full aspect-[420/280] bg-slate-950 border border-slate-900 rounded-xl overflow-hidden p-2">
+      <div className="relative w-full aspect-[420/280] bg-slate-50 border border-slate-200 rounded-xl overflow-hidden p-2">
         <svg viewBox="0 0 420 280" className="w-full h-full">
           {/* Draw connecting synapses (connecting lines) */}
-          <g className="synapses opacity-30">
+          <g className="synapses opacity-40">
             {/* Column 1 -> Column 2 */}
             {inputY.map((y1) =>
               hidden1Y.map((y2) => (
@@ -44,7 +44,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                   y1={y1}
                   x2={cols[1]}
                   y2={y2}
-                  stroke="#475569"
+                  stroke="#cbd5e1"
                   strokeWidth="0.5"
                 />
               ))
@@ -59,7 +59,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                   y1={y1}
                   x2={cols[2]}
                   y2={y2}
-                  stroke="#475569"
+                  stroke="#cbd5e1"
                   strokeWidth="0.5"
                 />
               ))
@@ -76,7 +76,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                     y1={y1}
                     x2={cols[3]}
                     y2={y2}
-                    stroke={isActive ? "#3b82f6" : "#475569"}
+                    stroke={isActive ? "#2563eb" : "#cbd5e1"}
                     strokeWidth={isActive ? "1.5" : "0.5"}
                     strokeDasharray={isActive ? "4, 4" : "none"}
                     className={isActive ? "animate-[dash_10s_linear_infinite]" : ""}
@@ -94,7 +94,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                 <circle
                   key={`pulse-${idx}`}
                   r="2"
-                  fill="#3b82f6"
+                  fill="#2563eb"
                 >
                   <animateMotion
                     path={`M ${cols[2]},${y1} L ${cols[3]},${outputY[maxIdx]}`}
@@ -114,11 +114,11 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                 cx={cols[0]}
                 cy={y}
                 r="4"
-                fill="#334155"
+                fill="#64748b"
               />
             ))}
             {/* Draw gap indicator */}
-            <text x={cols[0]} y="260" fill="#475569" fontSize="10" textAnchor="middle" fontWeight="bold">...</text>
+            <text x={cols[0]} y="260" fill="#94a3b8" fontSize="10" textAnchor="middle" fontWeight="bold">...</text>
           </g>
 
           {/* Column 2 nodes (Hidden 1) */}
@@ -129,12 +129,12 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                 cx={cols[1]}
                 cy={y}
                 r="4"
-                fill="#1e293b"
-                stroke="#475569"
+                fill="#f1f5f9"
+                stroke="#cbd5e1"
                 strokeWidth="1.5"
               />
             ))}
-            <text x={cols[1]} y="260" fill="#475569" fontSize="10" textAnchor="middle" fontWeight="bold">...</text>
+            <text x={cols[1]} y="260" fill="#94a3b8" fontSize="10" textAnchor="middle" fontWeight="bold">...</text>
           </g>
 
           {/* Column 3 nodes (Hidden 2) */}
@@ -145,12 +145,12 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                 cx={cols[2]}
                 cy={y}
                 r="4"
-                fill="#1e293b"
-                stroke="#475569"
+                fill="#f1f5f9"
+                stroke="#cbd5e1"
                 strokeWidth="1.5"
               />
             ))}
-            <text x={cols[2]} y="260" fill="#475569" fontSize="10" textAnchor="middle" fontWeight="bold">...</text>
+            <text x={cols[2]} y="260" fill="#94a3b8" fontSize="10" textAnchor="middle" fontWeight="bold">...</text>
           </g>
 
           {/* Column 4 nodes (Outputs) */}
@@ -165,8 +165,8 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                     cx={cols[3]}
                     cy={y}
                     r={isActive ? "7" : "5"}
-                    fill={isActive ? "#3b82f6" : "#1e293b"}
-                    stroke={isActive ? "#3b82f6" : "#475569"}
+                    fill={isActive ? "#2563eb" : "#f1f5f9"}
+                    stroke={isActive ? "#2563eb" : "#cbd5e1"}
                     strokeWidth={isActive ? "1.5" : "1"}
                     opacity={opacity}
                   />
@@ -175,7 +175,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
                     y={y + 3.5}
                     fontSize="9.5"
                     fontWeight="bold"
-                    fill={isActive ? "#3b82f6" : "#475569"}
+                    fill={isActive ? "#2563eb" : "#64748b"}
                     className="font-mono text-[9px]"
                   >
                     {idx}
@@ -193,7 +193,7 @@ export default function NetworkVisualizer({ probabilities }: NetworkVisualizerPr
               y="18"
               fontSize="8.5"
               fontWeight="bold"
-              fill="#94a3b8"
+              fill="#64748b"
               textAnchor="middle"
               className="font-semibold select-none"
             >

@@ -108,58 +108,58 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center px-4 py-10 selection:bg-blue-500/30">
+    <main className="min-h-screen bg-slate-50 text-slate-900 flex flex-col items-center px-4 py-10 selection:bg-blue-500/20">
       {/* 1. Header Banner */}
       <header className="text-center mb-8 flex flex-col items-center">
-        <div className="flex items-center gap-3 bg-slate-900 border border-slate-800 px-4 py-1.5 rounded-full mb-4 text-slate-300 font-medium text-xs tracking-wide uppercase">
-          <Brain className="w-4 h-4 text-blue-400" />
+        <div className="flex items-center gap-3 bg-slate-100 border border-slate-200 px-4 py-1.5 rounded-full mb-4 text-slate-600 font-semibold text-xs tracking-wide uppercase">
+          <Brain className="w-4 h-4 text-blue-600" />
           <span>
             TensorFlow.js Neural Network
           </span>
         </div>
-        <h1 className="text-4xl md:text-5xl font-black text-slate-100 tracking-tight">
+        <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
           Handwritten Digit Predictor
         </h1>
-        <p className="text-slate-400 mt-2 text-sm md:text-base max-w-lg">
-          Draw a number from <strong className="text-blue-400">0 to 9</strong> on the board. The model will perform real-time forward propagation and predict it below!
+        <p className="text-slate-500 mt-2 text-sm md:text-base max-w-lg">
+          Draw a number from <strong className="text-blue-600">0 to 9</strong> on the board. The model will perform real-time forward propagation and predict it below!
         </p>
       </header>
 
       {/* 2. Interactive App Viewport */}
       {isTraining ? (
         /* Loading Overlay / Live Model Training Progress Screen */
-        <div className="flex-1 flex flex-col items-center justify-center max-w-md w-full p-8 border border-slate-800 bg-slate-900 rounded-xl mt-4">
+        <div className="flex-1 flex flex-col items-center justify-center max-w-md w-full p-8 border border-slate-200 bg-white rounded-xl mt-4 shadow-sm">
           <div className="relative mb-6">
-            <RefreshCw className="w-12 h-12 text-blue-500 animate-spin" />
-            <Cpu className="w-6 h-6 text-slate-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+            <RefreshCw className="w-12 h-12 text-blue-600 animate-spin" />
+            <Cpu className="w-6 h-6 text-slate-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
 
-          <h2 className="text-xl font-bold text-slate-200">
+          <h2 className="text-xl font-bold text-slate-800">
             Training Neural Network
           </h2>
-          <p className="text-xs text-slate-400 text-center mt-1.5 px-4">
+          <p className="text-xs text-slate-500 text-center mt-1.5 px-4">
             Compiling dense layers and fitting network weights to synthetic strokes...
           </p>
 
-          <div className="w-full mt-6 bg-slate-950 rounded-full h-2 overflow-hidden border border-slate-800 p-0.5">
+          <div className="w-full mt-6 bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200 p-0.5">
             <div
               className="bg-blue-600 h-full rounded-full transition-all duration-300"
               style={{ width: `${(trainingMetrics.epoch / 45) * 100}%` }}
             />
           </div>
 
-          <div className="grid grid-cols-3 gap-6 w-full mt-6 bg-slate-950 p-4 rounded-xl border border-slate-900 text-center font-mono">
+          <div className="grid grid-cols-3 gap-6 w-full mt-6 bg-slate-50 p-4 rounded-xl border border-slate-200 text-center font-mono">
             <div>
-              <span className="text-[10px] text-slate-500 uppercase block font-sans">Epoch</span>
-              <span className="text-sm font-bold text-slate-300">{trainingMetrics.epoch}/45</span>
+              <span className="text-[10px] text-slate-400 uppercase block font-sans">Epoch</span>
+              <span className="text-sm font-bold text-slate-700">{trainingMetrics.epoch}/45</span>
             </div>
             <div>
-              <span className="text-[10px] text-slate-500 uppercase block font-sans">Loss</span>
-              <span className="text-sm font-bold text-slate-300">{trainingMetrics.loss.toFixed(4)}</span>
+              <span className="text-[10px] text-slate-400 uppercase block font-sans">Loss</span>
+              <span className="text-sm font-bold text-slate-700">{trainingMetrics.loss.toFixed(4)}</span>
             </div>
             <div>
-              <span className="text-[10px] text-slate-500 uppercase block font-sans">Accuracy</span>
-              <span className="text-sm font-bold text-slate-300">{(trainingMetrics.accuracy * 100).toFixed(1)}%</span>
+              <span className="text-[10px] text-slate-400 uppercase block font-sans">Accuracy</span>
+              <span className="text-sm font-bold text-slate-700">{(trainingMetrics.accuracy * 100).toFixed(1)}%</span>
             </div>
           </div>
         </div>
@@ -172,32 +172,32 @@ export default function Home() {
             <DrawingCanvas onDraw={handleDrawingUpdate} />
 
             {/* Live Inference Output Display */}
-            <div className="w-full bg-slate-900 border border-slate-800 rounded-xl p-5 flex items-center justify-between">
+            <div className="w-full bg-white border border-slate-200 rounded-xl p-5 flex items-center justify-between shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 bg-slate-800 text-slate-300 rounded-xl border border-slate-700">
+                <div className="p-2.5 bg-slate-100 text-slate-600 rounded-xl border border-slate-200">
                   <Award className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="text-[10px] text-slate-500 uppercase block tracking-wider font-semibold">Prediction</span>
-                  <span className="text-sm font-bold text-slate-200">Classified Digit</span>
+                  <span className="text-[10px] text-slate-400 uppercase block tracking-wider font-semibold">Prediction</span>
+                  <span className="text-sm font-bold text-slate-800">Classified Digit</span>
                 </div>
               </div>
-              <div className="w-14 h-14 bg-slate-800 rounded-xl flex items-center justify-center border border-slate-700">
-                <span className="text-3xl font-black text-blue-400 font-mono">
+              <div className="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center border border-slate-200">
+                <span className="text-3xl font-black text-blue-600 font-mono">
                   {predictedDigit !== null ? predictedDigit : "—"}
                 </span>
               </div>
             </div>
 
             {/* Performance Control Center */}
-            <div className="w-full flex items-center justify-between text-xs px-2 text-slate-500">
+            <div className="w-full flex items-center justify-between text-xs px-2 text-slate-400">
               <span className="flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5 text-slate-500" />
+                <Zap className="w-3.5 h-3.5 text-slate-400" />
                 Inference: ~2.1ms
               </span>
               <button
                 onClick={retrainModel}
-                className="hover:text-blue-400 transition-colors font-semibold flex items-center gap-1 cursor-pointer"
+                className="hover:text-blue-600 text-slate-500 transition-colors font-semibold flex items-center gap-1 cursor-pointer"
               >
                 <RefreshCw className="w-3 h-3" />
                 Retrain Weights
@@ -214,7 +214,7 @@ export default function Home() {
       )}
 
       {/* 3. Footer Copyright */}
-      <footer className="mt-16 text-slate-600 text-xs text-center border-t border-slate-900 w-full max-w-lg pt-6">
+      <footer className="mt-16 text-slate-400 text-xs text-center border-t border-slate-200 w-full max-w-lg pt-6">
         <p>© 2026 Interactive Neural Network Digit Predictor. Engineered with Tailwind, TypeScript & TF.js.</p>
       </footer>
     </main>
